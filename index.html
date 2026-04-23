@@ -4,1306 +4,424 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Manual de Sobrevivência Moderno — Chauke Stephan Neto</title>
-<meta name="description" content="O mapa do que está acontecendo — e as armas para resistir. 15 capítulos com dados documentados. Por um especialista em Inteligência Estratégica de Estado.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<meta name="description" content="O mapa do que está acontecendo — e as armas para resistir.">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=IM+Fell+English:ital@0;1&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
-
 <style>
-/* ── RESET & VARIÁVEIS ─────────────────────────────────────────────────── */
+
+/* ══════════════════════════════════════════════════════════
+   SISTEMA DE LINHAS — TODA A TIPOGRAFIA SINCRONIZADA A 32px
+   Regra: line-height × font-size = múltiplo de 32px
+   16px × 2.000 = 32  ✓   17px × 1.882 = 32  ✓
+   20px × 1.600 = 32  ✓   24px × 1.333 = 32  ✓
+   Margens e paddings: sempre múltiplos de 32px
+══════════════════════════════════════════════════════════ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-:root {
-  --kraft:      #C8901E;
-  --kraft-dark: #8B5E10;
-  --kraft-mid:  #D4A84B;
-  --ink:        #1C0F04;
-  --ink-mid:    #3A2010;
-  --red:        #8B1818;
-  --gold:       #B8860B;
-  --cream:      #F7F0E0;
-  --cream-dark: #EDE0C4;
-  --dark:       #0E0508;
-  --dark-mid:   #1A0C10;
-  --gray:       #888070;
-}
-
 html { scroll-behavior: smooth; }
 
-body {
-  background: var(--dark);
-  color: var(--cream);
-  font-family: 'Libre Baskerville', serif;
-  font-size: 17px;
-  line-height: 1.7;
-  overflow-x: hidden;
+:root {
+  --LH:    32px;
+  --papel: #F4EDD8;
+  --tinta: #1C1208;
+  --tm:    #3A2C14;
+  --mg:    rgba(180,40,40,.30);
+  --lc:    rgba(90,110,180,.15);
+  --red:   #8B1818;
+  --gold:  #B8860B;
+  --kraft: #C8901E;
+  --cream: #FAF5E8;
+  --dark:  #28200F;
+  --dm:    #342A14;
 }
 
-/* ── TIPOGRAFIA ─────────────────────────────────────────────────────────── */
-.playfair  { font-family: 'Playfair Display', serif; }
-.fell      { font-family: 'IM Fell English', serif; }
-.mono      { font-family: 'Courier Prime', monospace; }
+body { background:var(--dark); font-family:'Libre Baskerville',serif; color:var(--tinta); overflow-x:hidden; }
 
-/* ── ANIMAÇÕES DE ENTRADA ───────────────────────────────────────────────── */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(32px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-@keyframes stampIn {
-  0%   { opacity: 0; transform: rotate(-8deg) scale(1.3); }
-  60%  { transform: rotate(3deg) scale(0.97); }
-  100% { opacity: 1; transform: rotate(-3deg) scale(1); }
-}
-@keyframes lineGrow {
-  from { width: 0; }
-  to   { width: 100%; }
-}
-@keyframes pulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(139,24,24,0.5); }
-  50%       { box-shadow: 0 0 0 12px rgba(139,24,24,0); }
-}
-
-.anim-up   { animation: fadeUp  0.8s ease forwards; }
-.anim-in   { animation: fadeIn  1.0s ease forwards; }
-.delay-1   { animation-delay: 0.15s; }
-.delay-2   { animation-delay: 0.30s; }
-.delay-3   { animation-delay: 0.50s; }
-.delay-4   { animation-delay: 0.70s; }
-.delay-5   { animation-delay: 0.90s; }
-
-/* ── UTILITÁRIOS ─────────────────────────────────────────────────────────── */
-.container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
-.container-wide { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
-
-.divider-gold {
-  width: 72px; height: 3px;
-  background: var(--gold);
-  margin: 24px 0;
-}
-.divider-gold.center { margin: 24px auto; }
-.divider-full {
-  width: 100%; height: 1px;
-  background: linear-gradient(to right, transparent, rgba(184,134,11,0.4), transparent);
-  margin: 0;
-}
-
-.tag {
-  font-family: 'Courier Prime', monospace;
-  font-size: 11px;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  color: var(--kraft-mid);
-  display: inline-block;
-  margin-bottom: 16px;
-}
-
-/* ── BOTÃO PRINCIPAL ─────────────────────────────────────────────────────── */
-.btn-comprar {
-  display: inline-block;
-  background: var(--red);
-  color: var(--cream);
-  font-family: 'Courier Prime', monospace;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  text-decoration: none;
-  padding: 18px 48px;
-  border: 2px solid var(--red);
-  cursor: pointer;
-  transition: all 0.25s ease;
-  animation: pulse 2.5s ease infinite;
-  position: relative;
-}
-.btn-comprar:hover {
-  background: transparent;
-  color: var(--red);
-  animation: none;
-  box-shadow: none;
-}
-.btn-comprar::before {
-  content: '';
-  position: absolute;
-  inset: -6px;
-  border: 1px solid rgba(139,24,24,0.3);
-  pointer-events: none;
-}
-
-.btn-secundario {
-  display: inline-block;
-  background: transparent;
-  color: var(--cream);
-  font-family: 'Courier Prime', monospace;
-  font-size: 13px;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  text-decoration: none;
-  padding: 14px 36px;
-  border: 1px solid rgba(247,240,224,0.3);
-  cursor: pointer;
-  transition: all 0.25s ease;
-}
-.btn-secundario:hover {
-  border-color: var(--gold);
-  color: var(--gold);
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   HERO
-═══════════════════════════════════════════════════════════════════════════ */
-#hero {
-  min-height: 100vh;
-  background: var(--dark);
-  position: relative;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-}
-
-/* Textura de fundo */
-#hero::before {
-  content: '';
-  position: absolute; inset: 0;
-  background-image:
-    repeating-linear-gradient(0deg, transparent, transparent 80px,
-      rgba(255,255,255,0.012) 80px, rgba(255,255,255,0.012) 81px),
-    repeating-linear-gradient(90deg, transparent, transparent 80px,
-      rgba(255,255,255,0.012) 80px, rgba(255,255,255,0.012) 81px);
-  pointer-events: none;
-}
-
-/* Gradiente lateral */
-#hero::after {
-  content: '';
-  position: absolute;
-  top: 0; right: 0;
-  width: 50%; height: 100%;
-  background: radial-gradient(ellipse at 80% 50%,
-    rgba(139,94,16,0.12) 0%,
-    transparent 70%);
-  pointer-events: none;
-}
-
-/* Faixas coloridas */
-.hero-top-line {
-  position: absolute; top: 0; left: 0; right: 0;
-  height: 8px;
-  background: var(--red);
-}
-.hero-bottom-line {
-  position: absolute; bottom: 0; left: 0; right: 0;
-  height: 4px;
-  background: linear-gradient(to right, var(--gold), transparent);
-}
-
-.hero-inner {
-  position: relative; z-index: 2;
-  width: 100%;
-  padding: 100px 24px 80px;
-}
-
-.hero-layout {
-  max-width: 1100px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 420px;
-  gap: 80px;
-  align-items: center;
-}
-
-/* Coluna esquerda */
-.hero-text { opacity: 0; }
-.hero-text.anim-up { opacity: 1; }
-
-.hero-pre {
-  font-family: 'Courier Prime', monospace;
-  font-size: 11px;
-  letter-spacing: 5px;
-  color: var(--red);
-  text-transform: uppercase;
-  margin-bottom: 20px;
-  border-left: 2px solid var(--red);
-  padding-left: 12px;
-}
-
-.hero-title {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(48px, 6vw, 80px);
-  font-weight: 900;
-  line-height: 0.95;
-  letter-spacing: -2px;
-  color: var(--cream);
-  margin-bottom: 8px;
-}
-
-.hero-title-sub {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(20px, 3vw, 32px);
-  font-weight: 700;
-  font-style: italic;
-  color: var(--kraft-mid);
-  margin-bottom: 32px;
-  letter-spacing: -0.5px;
-}
-
-.hero-desc {
-  font-size: 18px;
-  line-height: 1.75;
-  color: rgba(247,240,224,0.75);
-  max-width: 520px;
-  margin-bottom: 40px;
-}
-.hero-desc strong { color: var(--cream); font-weight: 700; }
-
-.hero-credencial {
-  font-family: 'Courier Prime', monospace;
-  font-size: 11px;
-  letter-spacing: 2px;
-  color: rgba(184,134,11,0.7);
-  text-transform: uppercase;
-  margin-top: 28px;
-  padding-top: 20px;
-  border-top: 1px solid rgba(184,134,11,0.2);
-}
-
-/* Coluna direita — livro */
-.hero-book-wrap {
-  position: relative;
-  opacity: 0;
-}
-.hero-book-wrap.anim-in { opacity: 1; }
-
-.hero-book {
-  width: 100%;
-  border-radius: 4px;
-  box-shadow:
-    -16px 16px 48px rgba(0,0,0,0.8),
-    -4px 4px 16px rgba(0,0,0,0.5);
-  display: block;
-  transform: perspective(800px) rotateY(-8deg) rotateX(2deg);
-  transition: transform 0.4s ease;
-}
-.hero-book:hover {
-  transform: perspective(800px) rotateY(-3deg) rotateX(1deg) scale(1.02);
-}
-
-/* Carimbo sobre o livro */
-.hero-stamp {
-  position: absolute;
-  top: -20px; right: -24px;
-  background: transparent;
-  border: 3px solid var(--red);
-  padding: 8px 16px;
-  font-family: 'Courier Prime', monospace;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 4px;
-  color: var(--red);
-  text-transform: uppercase;
-  transform: rotate(12deg);
-  animation: stampIn 0.8s 1.2s ease both;
-  z-index: 3;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   DADOS — BARRA DE URGÊNCIA
-═══════════════════════════════════════════════════════════════════════════ */
-#dados-barra {
-  background: var(--red);
-  padding: 20px 24px;
-  overflow: hidden;
-}
-
-.dados-scroll {
-  display: flex;
-  gap: 64px;
-  animation: scroll-left 30s linear infinite;
-  white-space: nowrap;
-  width: max-content;
-}
-
-@keyframes scroll-left {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
-}
-
-.dado-item {
-  font-family: 'Courier Prime', monospace;
-  font-size: 12px;
-  letter-spacing: 3px;
-  color: rgba(247,240,224,0.9);
-  text-transform: uppercase;
-  flex-shrink: 0;
-}
-.dado-item strong { color: white; font-weight: 700; }
-.dado-sep {
-  color: rgba(247,240,224,0.4);
-  flex-shrink: 0;
-  font-size: 18px;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   SEÇÃO — O PROBLEMA
-═══════════════════════════════════════════════════════════════════════════ */
-#problema {
-  background: var(--cream);
-  color: var(--ink);
-  padding: 100px 0;
-  position: relative;
-  overflow: hidden;
-}
-
-/* Papel pautado */
-#problema::before {
-  content: '';
-  position: absolute; inset: 0;
-  background-image: repeating-linear-gradient(
-    to bottom, transparent, transparent 47px,
-    rgba(139,94,16,0.08) 48px
-  );
-  pointer-events: none;
-}
-
+/* ── FOLHA CLARA ──────────────────────────────────────── */
+.F { background:var(--papel); position:relative; }
 /* Margem vermelha */
-#problema::after {
-  content: '';
-  position: absolute;
-  left: calc(50% - 450px + 40px);
-  top: 0; bottom: 0;
-  width: 2px;
-  background: rgba(139,24,24,0.15);
+.F::after {
+  content:''; position:absolute; left:88px; top:0; bottom:0;
+  width:2px; background:var(--mg); pointer-events:none;
 }
-
-.problema-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 64px;
-  align-items: start;
+.Fc {
+  position:relative; z-index:2;
+  padding:64px 72px 64px 120px;
+  max-width:960px; margin:0 auto;
 }
-
-.problema-titulo {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(36px, 4vw, 52px);
-  font-weight: 900;
-  line-height: 1.05;
-  color: var(--ink);
-  margin-bottom: 24px;
-}
-.problema-titulo em {
-  font-style: italic;
-  color: var(--red);
-}
-
-.problema-body {
-  font-size: 17px;
-  line-height: 1.8;
-  color: var(--ink-mid);
-  margin-bottom: 20px;
-}
-.problema-body strong { color: var(--ink); font-weight: 700; }
-
-/* Cards de dados */
-.dado-card {
-  background: var(--ink);
-  color: var(--cream);
-  padding: 32px;
-  margin-bottom: 20px;
-  border-left: 4px solid var(--red);
-  position: relative;
-}
-
-.dado-numero {
-  font-family: 'Playfair Display', serif;
-  font-size: 72px;
-  font-weight: 900;
-  line-height: 0.85;
-  color: var(--cream);
-  letter-spacing: -3px;
-}
-.dado-numero sup {
-  font-size: 28px;
-  color: var(--red);
-  vertical-align: top;
-  margin-top: 8px;
-  display: inline-block;
-  letter-spacing: 0;
-}
-
-.dado-desc {
-  font-size: 14px;
-  color: rgba(247,240,224,0.65);
-  font-style: italic;
-  margin-top: 4px;
-}
-.dado-fonte {
-  font-family: 'Courier Prime', monospace;
-  font-size: 10px;
-  letter-spacing: 1px;
-  color: rgba(184,134,11,0.6);
-  text-transform: uppercase;
-  margin-top: 12px;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   SEÇÃO — O QUE É ESTE LIVRO
-═══════════════════════════════════════════════════════════════════════════ */
-#o-livro {
-  background: var(--dark-mid);
-  padding: 100px 0;
-  position: relative;
-}
-
-.livro-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
-  align-items: center;
-}
-
-.livro-titulo {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(32px, 4vw, 48px);
-  font-weight: 900;
-  color: var(--cream);
-  margin-bottom: 24px;
-  line-height: 1.1;
-}
-
-.livro-body {
-  color: rgba(247,240,224,0.75);
-  font-size: 17px;
-  line-height: 1.8;
-  margin-bottom: 16px;
-}
-.livro-body strong { color: var(--cream); }
-
-/* Lista de capítulos */
-.cap-lista { list-style: none; margin-top: 32px; }
-.cap-lista li {
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  padding: 12px 0;
-  border-bottom: 1px solid rgba(184,134,11,0.12);
-  font-size: 15px;
-  color: rgba(247,240,224,0.8);
-}
-.cap-lista li:last-child { border-bottom: none; }
-
-.cap-num {
-  font-family: 'Courier Prime', monospace;
-  font-size: 11px;
-  letter-spacing: 2px;
-  color: var(--red);
-  min-width: 48px;
-  padding-top: 3px;
-  flex-shrink: 0;
-}
-.cap-titulo { font-size: 15px; line-height: 1.5; }
-.cap-titulo em {
-  display: block;
-  font-size: 12px;
-  font-style: italic;
-  color: rgba(247,240,224,0.45);
-  margin-top: 2px;
-}
-
-/* Fase label */
-.fase-label {
-  font-family: 'Courier Prime', monospace;
-  font-size: 10px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-  color: var(--cream);
-  background: var(--red);
-  padding: 6px 14px;
-  display: inline-block;
-  margin: 20px 0 8px;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   SEÇÃO — CITAÇÃO GRANDE
-═══════════════════════════════════════════════════════════════════════════ */
-#citacao {
-  background: var(--ink);
-  padding: 80px 0;
-  position: relative;
-  overflow: hidden;
-}
-
-#citacao::before {
-  content: '\201C';
-  position: absolute;
-  top: -40px; left: 50%;
-  transform: translateX(-50%);
-  font-family: 'Playfair Display', serif;
-  font-size: 400px;
-  color: rgba(139,24,24,0.06);
-  line-height: 1;
-  pointer-events: none;
-  user-select: none;
-}
-
-.citacao-texto {
-  font-family: 'IM Fell English', serif;
-  font-size: clamp(22px, 3vw, 34px);
-  font-style: italic;
-  line-height: 1.55;
-  color: var(--cream);
-  text-align: center;
-  max-width: 760px;
-  margin: 0 auto 20px;
-  position: relative;
-}
-
-.citacao-autor {
-  font-family: 'Courier Prime', monospace;
-  font-size: 12px;
-  letter-spacing: 3px;
-  color: rgba(184,134,11,0.7);
-  text-align: center;
-  text-transform: uppercase;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   SEÇÃO — POR QUEM É
-═══════════════════════════════════════════════════════════════════════════ */
-#para-quem {
-  background: var(--cream);
-  color: var(--ink);
-  padding: 100px 0;
-  position: relative;
-}
-
-#para-quem::before {
-  content: '';
-  position: absolute; inset: 0;
+/* Linhas DO papel diretamente no Fc — background-position:0 0
+   significa que a 1ª linha aparece no topo do padding area,
+   exatamente onde a 1ª linha de texto assenta */
+.Fc::before {
+  content:''; position:absolute;
+  top:0; left:0; right:0; bottom:0;
+  pointer-events:none; z-index:0;
   background-image: repeating-linear-gradient(
-    to bottom, transparent, transparent 47px,
-    rgba(139,94,16,0.07) 48px
+    to bottom,
+    transparent 0px, transparent calc(var(--LH) - 1px),
+    var(--lc) calc(var(--LH) - 1px), var(--lc) var(--LH)
   );
-  pointer-events: none;
+  /* Offset = padding-top (64px) para alinhar exatamente com o texto */
+  background-position: 0 64px;
+  background-origin: padding-box;
+}
+/* Garantir que filhos do Fc fiquem acima das linhas */
+.Fc > * { position:relative; z-index:1; }
+
+/* ── FOLHA ESCURA ─────────────────────────────────────── */
+.FE { background:var(--dark); position:relative; }
+.FE::after { content:''; position:absolute; left:88px; top:0; bottom:0; width:2px; background:rgba(139,24,24,.28); pointer-events:none; }
+.FE .Fc { color:#E8D8B8; padding-top:96px; padding-bottom:96px; }
+.FE .Fc::before {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0px, transparent calc(var(--LH) - 1px),
+    rgba(200,144,30,.07) calc(var(--LH) - 1px), rgba(200,144,30,.07) var(--LH)
+  );
+  background-position: 0 96px; /* padding-top das folhas escuras */
 }
 
-.para-quem-titulo {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(32px, 4vw, 48px);
-  font-weight: 900;
-  color: var(--ink);
-  text-align: center;
-  margin-bottom: 56px;
-  line-height: 1.1;
-}
-.para-quem-titulo em { color: var(--red); font-style: italic; }
+/* Separador */
+.sep { background:var(--dm); height:48px; display:flex; align-items:center; justify-content:center; letter-spacing:28px; color:rgba(184,134,11,.28); font-size:16px; }
 
-.publicos-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-}
+/* ══════════════════════════════════════════════════════════
+   TIPOGRAFIA — todos line-heights múltiplos de 32
+══════════════════════════════════════════════════════════ */
+/* corpo: 16×2=32 */
+.tc  { font-size:16px; line-height:2;     color:var(--tm); }
+.tc  strong { color:var(--tinta); font-weight:700; }
+.tc  em     { color:var(--red);   font-style:italic; }
 
-.publico-card {
-  background: var(--ink);
-  color: var(--cream);
-  padding: 36px 32px;
-  border-top: 3px solid var(--red);
-  transition: transform 0.2s ease;
-}
-.publico-card:hover { transform: translateY(-4px); }
+/* corpo claro */
+.tcc { font-size:16px; line-height:2;     color:rgba(232,216,184,.75); }
+.tcc strong { color:#E8D8B8; }
+.tcc em     { color:var(--kraft); font-style:italic; }
 
-.publico-num {
-  font-family: 'Playfair Display', serif;
-  font-size: 56px;
-  font-weight: 900;
-  color: rgba(247,240,224,0.08);
-  line-height: 1;
-  margin-bottom: -10px;
-}
+/* corpo lg: 17×1.882≈32 */
+.tlg { font-size:17px; line-height:1.882; color:var(--tm); }
+.tlg strong { color:var(--tinta); } .tlg em { color:var(--red); font-style:italic; }
 
-.publico-titulo {
-  font-family: 'Playfair Display', serif;
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--cream);
-  margin-bottom: 12px;
-}
+/* h3: 20×1.6=32 */
+.th3 { font-family:'Playfair Display',serif; font-size:20px; font-weight:700; line-height:1.6; color:var(--tinta); }
+/* h2: 24×1.333=32 */
+.th2 { font-family:'Playfair Display',serif; font-size:24px; font-weight:700; line-height:1.333; color:var(--tinta); letter-spacing:-.5px; }
+/* h1: 32×2=64 (2 linhas de pauta) */
+.th1 { font-family:'Playfair Display',serif; font-size:32px; font-weight:900; line-height:2; color:var(--tinta); letter-spacing:-1px; }
+/* display: livre mas margins múltiplas */
+.td  { font-family:'Playfair Display',serif; font-size:clamp(52px,7.5vw,96px); font-weight:900; line-height:1; letter-spacing:-3px; color:var(--tinta); }
+/* número gigante */
+.tn  { font-family:'Playfair Display',serif; font-size:clamp(96px,14vw,144px); font-weight:900; line-height:1; letter-spacing:-5px; color:var(--tinta); }
+.tn sup { font-size:.35em; vertical-align:top; margin-top:.14em; display:inline-block; color:var(--red); letter-spacing:0; }
+/* fell */
+.tf  { font-family:'IM Fell English',serif; font-style:italic; font-size:20px; line-height:1.6; color:var(--tinta); }
+/* mono */
+.tm  { font-family:'Courier Prime',monospace; font-size:11px; line-height:2.909; letter-spacing:2px; text-transform:uppercase; }
+/* tag */
+.tag { font-family:'Courier Prime',monospace; font-size:10px; line-height:3.2; letter-spacing:4px; text-transform:uppercase; color:var(--red); display:block; }
+.tago { color:rgba(200,144,30,.65); }
 
-.publico-dor {
-  font-size: 15px;
-  color: rgba(247,240,224,0.65);
-  font-style: italic;
-  line-height: 1.65;
-  margin-bottom: 12px;
-  border-left: 2px solid rgba(139,24,24,0.5);
-  padding-left: 12px;
-}
+/* espaçamentos sempre 32px */
+.mb1{margin-bottom:32px} .mb2{margin-bottom:64px} .mbh{margin-bottom:16px}
+.mt1{margin-top:32px}    .mt2{margin-top:64px}    .mth{margin-top:16px}
 
-.publico-body {
-  font-size: 14px;
-  color: rgba(247,240,224,0.7);
-  line-height: 1.7;
-}
+/* ── ELEMENTOS ────────────────────────────────────────── */
+.fo  { display:block; width:80px; height:3px; background:var(--gold); }
+.fr  { display:block; width:48px; height:3px; background:var(--red);  }
+.ff  { display:block; width:100%; height:1px; background:var(--tinta); opacity:.10; }
+.ffc { display:block; width:100%; height:1px; background:rgba(200,144,30,.15); }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   SEÇÃO — O AUTOR
-═══════════════════════════════════════════════════════════════════════════ */
-#autor {
-  background: var(--dark-mid);
-  padding: 100px 0;
-  border-top: 1px solid rgba(184,134,11,0.15);
-}
+.carimbo { display:inline-block; border:3px solid var(--red); padding:6px 18px; font-family:'Courier Prime',monospace; font-size:13px; font-weight:700; letter-spacing:5px; color:var(--red); text-transform:uppercase; opacity:.68; }
 
-.autor-grid {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 64px;
-  align-items: center;
-}
+/* dado */
+.dado { border-left:4px solid var(--red); padding-left:24px; margin:32px 0; }
+.dado-f { font-family:'Courier Prime',monospace; font-size:10px; line-height:3.2; letter-spacing:1.5px; color:rgba(58,44,20,.38); text-transform:uppercase; }
 
-.autor-placeholder {
-  width: 200px;
-  height: 200px;
-  border: 2px solid rgba(184,134,11,0.3);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 8px;
-  flex-shrink: 0;
-  background: rgba(200,144,30,0.05);
-}
-.autor-placeholder-txt {
-  font-family: 'Courier Prime', monospace;
-  font-size: 10px;
-  letter-spacing: 2px;
-  color: rgba(184,134,11,0.4);
-  text-transform: uppercase;
-  text-align: center;
-  padding: 0 16px;
-  line-height: 1.6;
-}
+/* citação */
+.cit  { font-family:'IM Fell English',serif; font-style:italic; font-size:20px; line-height:1.6; color:var(--tinta); border-left:3px solid rgba(139,24,24,.3); padding-left:24px; margin:32px 0; }
+.citc { color:#E8D8B8; border-left-color:rgba(139,24,24,.5); }
+.cita { display:block; font-size:11px; font-style:normal; font-family:'Courier Prime',monospace; letter-spacing:2px; text-transform:uppercase; color:rgba(58,44,20,.38); line-height:2.909; }
+.citac{ color:rgba(200,144,30,.42); }
 
-.autor-nome {
-  font-family: 'Playfair Display', serif;
-  font-size: 32px;
-  font-weight: 700;
-  color: var(--cream);
-  margin-bottom: 4px;
-}
-.autor-cargo {
-  font-family: 'Courier Prime', monospace;
-  font-size: 11px;
-  letter-spacing: 3px;
-  color: var(--kraft-mid);
-  text-transform: uppercase;
-  margin-bottom: 24px;
-}
-.autor-bio {
-  font-size: 16px;
-  line-height: 1.8;
-  color: rgba(247,240,224,0.7);
-  margin-bottom: 14px;
-}
-.autor-bio strong { color: var(--cream); }
+/* fase */
+.fase { font-family:'Courier Prime',monospace; font-size:10px; letter-spacing:3px; text-transform:uppercase; color:var(--cream); background:var(--red); padding:6px 14px; display:inline-block; margin:32px 0 0; line-height:1.6; }
 
-/* ═══════════════════════════════════════════════════════════════════════════
-   SEÇÃO — OFERTA / CTA PRINCIPAL
-═══════════════════════════════════════════════════════════════════════════ */
-#oferta {
-  background: var(--ink);
-  padding: 100px 0;
-  position: relative;
-  overflow: hidden;
-}
+/* cap */
+.cap { display:grid; grid-template-columns:56px 1fr; padding:16px 0; border-bottom:1px solid rgba(28,18,8,.07); }
+.cap:last-child { border-bottom:none; }
+.capn { font-family:'Courier Prime',monospace; font-size:10px; letter-spacing:2px; color:var(--red); text-transform:uppercase; line-height:2; }
+.capt { font-size:15px; line-height:2.133; color:var(--tm); }
+.capt em { display:block; font-size:12px; font-style:italic; color:rgba(58,44,20,.37); line-height:2.667; }
 
-#oferta::before {
-  content: '';
-  position: absolute; inset: 0;
-  background:
-    radial-gradient(ellipse at 20% 50%, rgba(139,24,24,0.12) 0%, transparent 60%),
-    radial-gradient(ellipse at 80% 50%, rgba(139,94,16,0.1) 0%, transparent 60%);
-  pointer-events: none;
-}
+/* pub */
+.pub { padding:32px 0; border-top:2px solid rgba(28,18,8,.08); }
+.pubn { font-family:'Playfair Display',serif; font-size:64px; font-weight:900; color:rgba(28,18,8,.05); line-height:1; }
+.pubh { font-family:'Playfair Display',serif; font-size:20px; font-weight:700; line-height:1.6; color:var(--tinta); }
+.pubd { font-family:'IM Fell English',serif; font-style:italic; font-size:16px; line-height:2; color:var(--red); }
+.pubt { font-size:15px; line-height:2.133; color:var(--tm); }
 
-.oferta-box {
-  max-width: 680px;
-  margin: 0 auto;
-  text-align: center;
-  position: relative;
-  z-index: 2;
-}
+/* grid */
+.g2 { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:start; }
+.g2c{ align-items:center; }
 
-.oferta-tag {
-  font-family: 'Courier Prime', monospace;
-  font-size: 11px;
-  letter-spacing: 4px;
-  color: var(--red);
-  text-transform: uppercase;
-  margin-bottom: 24px;
-  display: block;
-}
+/* botão */
+.btn { display:inline-block; text-decoration:none; font-family:'Courier Prime',monospace; font-weight:700; letter-spacing:3px; text-transform:uppercase; cursor:pointer; transition:all .2s; }
+.btnp { background:var(--red); color:#FAF5E8; font-size:14px; padding:16px 48px; border:2px solid var(--red); line-height:1; animation:pls 2.5s ease infinite; }
+.btnp:hover { background:transparent; color:var(--red); animation:none; }
+.btng { background:transparent; color:var(--tinta); font-size:12px; padding:13px 28px; border:1px solid rgba(28,18,8,.25); line-height:1; }
+.btng:hover { border-color:var(--red); color:var(--red); }
+.btnc { background:var(--red); color:#FAF5E8; font-size:15px; padding:18px 56px; border:2px solid var(--red); line-height:1; animation:pls 2.5s ease infinite; }
+.btnc:hover { background:transparent; color:var(--red); animation:none; }
+@keyframes pls { 0%,100%{box-shadow:0 0 0 0 rgba(139,24,24,.4)} 50%{box-shadow:0 0 0 10px rgba(139,24,24,0)} }
 
-.oferta-titulo {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(36px, 5vw, 60px);
-  font-weight: 900;
-  color: var(--cream);
-  line-height: 1.0;
-  margin-bottom: 16px;
-}
+/* linha do tempo */
+.lt { border-left:3px solid var(--red); padding-left:24px; }
+.lt-item { margin-bottom:32px; }
+.lt-item:last-child { margin-bottom:0; }
 
-.oferta-sub {
-  font-size: 18px;
-  color: rgba(247,240,224,0.65);
-  font-style: italic;
-  margin-bottom: 48px;
-  line-height: 1.6;
+@media(max-width:700px){
+  .Fc{padding:64px 24px 64px 52px}
+  .F::after,.FE::after{left:36px}
+  .g2{grid-template-columns:1fr;gap:0}
+  .td{font-size:52px}.tn{font-size:96px}
 }
-
-.preco-wrap {
-  margin-bottom: 40px;
-}
-.preco-de {
-  font-family: 'Courier Prime', monospace;
-  font-size: 13px;
-  color: rgba(247,240,224,0.4);
-  text-decoration: line-through;
-  letter-spacing: 1px;
-}
-.preco-por {
-  font-family: 'Playfair Display', serif;
-  font-size: 80px;
-  font-weight: 900;
-  color: var(--cream);
-  line-height: 1;
-  letter-spacing: -3px;
-}
-.preco-por sup {
-  font-size: 28px;
-  vertical-align: top;
-  margin-top: 16px;
-  display: inline-block;
-  color: var(--kraft-mid);
-  letter-spacing: 0;
-}
-.preco-nota {
-  font-family: 'Courier Prime', monospace;
-  font-size: 11px;
-  letter-spacing: 2px;
-  color: rgba(247,240,224,0.4);
-  margin-top: 8px;
-  display: block;
-}
-
-.garantias {
-  display: flex;
-  justify-content: center;
-  gap: 32px;
-  margin-top: 32px;
-  flex-wrap: wrap;
-}
-.garantia-item {
-  font-family: 'Courier Prime', monospace;
-  font-size: 11px;
-  letter-spacing: 2px;
-  color: rgba(247,240,224,0.45);
-  text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.garantia-item::before {
-  content: '✓';
-  color: var(--gold);
-  font-size: 14px;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   RODAPÉ
-═══════════════════════════════════════════════════════════════════════════ */
-#rodape {
-  background: var(--dark);
-  padding: 48px 24px;
-  border-top: 1px solid rgba(184,134,11,0.15);
-  text-align: center;
-}
-
-.rodape-cruz {
-  font-size: 28px;
-  color: rgba(184,134,11,0.4);
-  margin-bottom: 16px;
-  display: block;
-}
-.rodape-nome {
-  font-family: 'Playfair Display', serif;
-  font-size: 16px;
-  color: rgba(247,240,224,0.6);
-  margin-bottom: 8px;
-}
-.rodape-direitos {
-  font-family: 'Courier Prime', monospace;
-  font-size: 10px;
-  letter-spacing: 2px;
-  color: rgba(247,240,224,0.25);
-  text-transform: uppercase;
-}
-
-/* ═══════════════════════════════════════════════════════════════════════════
-   RESPONSIVO
-═══════════════════════════════════════════════════════════════════════════ */
-@media (max-width: 768px) {
-  .hero-layout        { grid-template-columns: 1fr; gap: 48px; }
-  .hero-book-wrap     { max-width: 300px; margin: 0 auto; }
-  .hero-stamp         { top: -12px; right: -8px; font-size: 11px; padding: 6px 12px; }
-  .problema-grid      { grid-template-columns: 1fr; gap: 40px; }
-  .livro-grid         { grid-template-columns: 1fr; }
-  .publicos-grid      { grid-template-columns: 1fr; }
-  .autor-grid         { grid-template-columns: 1fr; text-align: center; }
-  .autor-placeholder  { margin: 0 auto; }
-  #problema::after    { display: none; }
-  .oferta-titulo      { font-size: 40px; }
-  .preco-por          { font-size: 64px; }
-}
+@keyframes fu{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.au{animation:fu .7s ease both} .d1{animation-delay:.1s} .d2{animation-delay:.25s} .d3{animation-delay:.4s} .d4{animation-delay:.6s}
 </style>
 </head>
 <body>
 
-<!-- ═══════════════════════════════════════════════════════════════════════
-     HERO
-═══════════════════════════════════════════════════════════════════════════ -->
-<section id="hero">
-  <div class="hero-top-line"></div>
-  <div class="hero-bottom-line"></div>
-
-  <div class="hero-inner">
-    <div class="hero-layout">
-
-      <!-- Texto -->
-      <div class="hero-text anim-up">
-        <p class="hero-pre">// Análise · Inteligência · Contra-Revolução</p>
-
-        <h1 class="hero-title">Manual de<br>Sobrevivência<br>Moderno</h1>
-        <p class="hero-title-sub">O mapa do que está acontecendo.</p>
-
-        <div class="divider-gold"></div>
-
-        <p class="hero-desc">
-          Você sente que algo está profundamente errado no mundo —
-          mas não consegue nomear exatamente o quê.<br><br>
-          Este livro rastreia as origens da desordem cultural, familiar e econômica
-          que vivemos — com <strong>dados documentados, fontes verificáveis</strong>
-          e rigor histórico. E aponta as armas para resistir.
-        </p>
-
-        <div style="display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
-          <!-- SUBSTITUA O # PELO SEU HOTLINK -->
-          <a href="#" class="btn-comprar anim-up delay-3">
-            Quero o livro &nbsp;→
-          </a>
-          <a href="#o-livro" class="btn-secundario anim-up delay-4">
-            Ver capítulos
-          </a>
-        </div>
-
-        <p class="hero-credencial anim-up delay-5">
-          Escrito por Chauke Stephan Neto &nbsp;·&nbsp;
-          Agente de Polícia do MPU &nbsp;·&nbsp; Inteligência Estratégica de Estado
-        </p>
-      </div>
-
-<!-- Livro -->
-      <div class="hero-book-wrap anim-in delay-2">
-        <div class="hero-stamp">Top Secret</div>
-        <svg viewBox="0 0 420 630" xmlns="http://www.w3.org/2000/svg" class="hero-book" style="width:100%;display:block;">
-          <defs>
-            <filter id="paper">
-              <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" result="noise"/>
-              <feColorMatrix type="saturate" values="0" in="noise" result="gray"/>
-              <feBlend in="SourceGraphic" in2="gray" mode="multiply" result="blend"/>
-              <feComposite in="blend" in2="SourceGraphic" operator="in"/>
-            </filter>
-            <linearGradient id="spine" x1="0" y1="0" x2="1" y2="0">
-              <stop offset="0%" stop-color="#6B4010"/>
-              <stop offset="100%" stop-color="#8B5E10"/>
-            </linearGradient>
-            <linearGradient id="cover-bg" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#D4960E"/>
-              <stop offset="50%" stop-color="#C8901E"/>
-              <stop offset="100%" stop-color="#A87016"/>
-            </linearGradient>
-          </defs>
-
-          <!-- Sombra -->
-          <rect x="18" y="18" width="390" height="600" rx="3" fill="#000" opacity="0.45"/>
-
-          <!-- Lombada -->
-          <rect x="4" y="2" width="28" height="620" rx="2" fill="url(#spine)"/>
-          <!-- Espirais da lombada -->
-          <circle cx="18" cy="40"  r="5" fill="#4A2808" opacity="0.7"/>
-          <circle cx="18" cy="80"  r="5" fill="#4A2808" opacity="0.7"/>
-          <circle cx="18" cy="120" r="5" fill="#4A2808" opacity="0.7"/>
-          <circle cx="18" cy="160" r="5" fill="#4A2808" opacity="0.7"/>
-          <circle cx="18" cy="200" r="5" fill="#4A2808" opacity="0.7"/>
-          <circle cx="18" cy="240" r="5" fill="#4A2808" opacity="0.7"/>
-          <circle cx="18" cy="280" r="5" fill="#4A2808" opacity="0.7"/>
-          <circle cx="18" cy="320" r="5" fill="#4A2808" opacity="0.7"/>
-          <circle cx="18" cy="360" r="5" fill="#4A2808" opacity="0.7"/>
-          <circle cx="18" cy="400" r="5" fill="#4A2808" opacity="0.7"/>
-          <circle cx="18" cy="440" r="5" fill="#4A2808" opacity="0.7"/>
-          <circle cx="18" cy="480" r="5" fill="#4A2808" opacity="0.7"/>
-          <circle cx="18" cy="520" r="5" fill="#4A2808" opacity="0.7"/>
-          <circle cx="18" cy="560" r="5" fill="#4A2808" opacity="0.7"/>
-          <circle cx="18" cy="600" r="5" fill="#4A2808" opacity="0.7"/>
-
-          <!-- Capa principal -->
-          <rect x="28" y="2" width="384" height="620" rx="2" fill="url(#cover-bg)"/>
-
-          <!-- Textura de papel kraft — linhas sutis -->
-          <rect x="28" y="2" width="384" height="620" rx="2" fill="none"
-                stroke="#A07010" stroke-width="0.3" opacity="0.3"/>
-          <!-- Linhas horizontais sutis simulando papel -->
-          <line x1="28" y1="52"  x2="412" y2="52"  stroke="#A07010" stroke-width="0.4" opacity="0.2"/>
-          <line x1="28" y1="102" x2="412" y2="102" stroke="#A07010" stroke-width="0.4" opacity="0.2"/>
-          <line x1="28" y1="152" x2="412" y2="152" stroke="#A07010" stroke-width="0.4" opacity="0.2"/>
-          <line x1="28" y1="202" x2="412" y2="202" stroke="#A07010" stroke-width="0.4" opacity="0.2"/>
-          <line x1="28" y1="252" x2="412" y2="252" stroke="#A07010" stroke-width="0.4" opacity="0.2"/>
-          <line x1="28" y1="302" x2="412" y2="302" stroke="#A07010" stroke-width="0.4" opacity="0.2"/>
-          <line x1="28" y1="352" x2="412" y2="352" stroke="#A07010" stroke-width="0.4" opacity="0.2"/>
-          <line x1="28" y1="402" x2="412" y2="402" stroke="#A07010" stroke-width="0.4" opacity="0.2"/>
-          <line x1="28" y1="452" x2="412" y2="452" stroke="#A07010" stroke-width="0.4" opacity="0.2"/>
-          <line x1="28" y1="502" x2="412" y2="502" stroke="#A07010" stroke-width="0.4" opacity="0.2"/>
-          <line x1="28" y1="552" x2="412" y2="552" stroke="#A07010" stroke-width="0.4" opacity="0.2"/>
-          <line x1="28" y1="602" x2="412" y2="602" stroke="#A07010" stroke-width="0.4" opacity="0.2"/>
-
-          <!-- Borda interna -->
-          <rect x="38" y="12" width="364" height="600" rx="1"
-                fill="none" stroke="#8B5E10" stroke-width="1.2" opacity="0.5"/>
-
-          <!-- CARIMBO TOP SECRET -->
-          <g transform="translate(220, 80) rotate(-4)">
-            <rect x="-88" y="-20" width="176" height="44" rx="3"
-                  fill="none" stroke="#8B1818" stroke-width="3.5" opacity="0.9"/>
-            <text x="0" y="8" text-anchor="middle"
-                  font-family="'Courier Prime', monospace"
-                  font-size="26" font-weight="700" fill="#8B1818" opacity="0.9"
-                  letter-spacing="3">TOP SECRET</text>
-          </g>
-
-          <!-- Título linha 1 -->
-          <text x="220" y="200" text-anchor="middle"
-                font-family="'Playfair Display', Georgia, serif"
-                font-size="46" font-weight="900" fill="#1C0F04">MANUAL DE</text>
-
-          <!-- Título linha 2 -->
-          <text x="220" y="268" text-anchor="middle"
-                font-family="'Playfair Display', Georgia, serif"
-                font-size="40" font-weight="900" fill="#1C0F04">SOBREVIVÊNCIA</text>
-
-          <!-- Título linha 3 -->
-          <text x="220" y="328" text-anchor="middle"
-                font-family="'Playfair Display', Georgia, serif"
-                font-size="46" font-weight="900" fill="#1C0F04">MODERNO</text>
-
-          <!-- Linha separadora -->
-          <line x1="80" y1="355" x2="360" y2="355" stroke="#1C0F04" stroke-width="1.2" opacity="0.5"/>
-
-          <!-- Cruz central -->
-          <text x="220" y="430" text-anchor="middle"
-                font-family="serif" font-size="36" fill="#1C0F04" opacity="0.4">✠</text>
-
-          <!-- Autor -->
-          <text x="220" y="560" text-anchor="middle"
-                font-family="'Playfair Display', Georgia, serif"
-                font-size="20" font-weight="700" fill="#1C0F04" letter-spacing="1">CHAUKE STEPHAN NETO</text>
-
-          <!-- Linha abaixo do autor -->
-          <line x1="100" y1="572" x2="340" y2="572" stroke="#1C0F04" stroke-width="0.8" opacity="0.4"/>
-
-          <!-- Edição digital -->
-          <text x="220" y="592" text-anchor="middle"
-                font-family="'Courier Prime', monospace"
-                font-size="11" fill="#1C0F04" opacity="0.45" letter-spacing="2">EDIÇÃO DIGITAL</text>
-
-          <!-- Sombra interna direita (depth) -->
-          <rect x="380" y="2" width="32" height="620" rx="0 2 2 0"
-                fill="url(#spine)" opacity="0.15"/>
-        </svg>
-      </div>
-
+<!-- ══ FOLHA 1 — HERO ══════════════════════════════════════ -->
+<section class="F">
+<div class="Fc" style="min-height:100vh;display:flex;flex-direction:column;justify-content:space-between">
+  <div class="au d1"><span class="tag">// Relatório de Inteligência — Uso Restrito</span><span class="ff"></span></div>
+  <div style="padding:64px 0" class="au d2">
+    <p class="tm mb1" style="color:rgba(58,44,20,.4)">Objeto: a origem da desordem — e as armas para resistir</p>
+    <h1 class="td mb2">Manual de<br>Sobrevivência<br>Moderno</h1>
+    <span class="fo mb1"></span>
+    <p class="tlg mb1" style="max-width:540px">Você sente que algo está profundamente errado — mas não consegue nomear o quê.<br>Este livro rastreia a origem com <strong>dados documentados</strong> e fontes verificáveis. E aponta as armas para resistir.</p>
+    <div style="display:flex;gap:20px;flex-wrap:wrap" class="au d3">
+      <a href="#" class="btn btnp">Quero o livro →</a><!-- SUBSTITUA # PELO HOTLINK -->
+      <a href="#caps" class="btn btng">Ver capítulos</a>
     </div>
   </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════════════════
-     BARRA DE DADOS
-═══════════════════════════════════════════════════════════════════════════ -->
-<div id="dados-barra" aria-hidden="true">
-  <div class="dados-scroll">
-    <span class="dado-item"><strong>92%</strong> dos presos sem pai presente</span>
-    <span class="dado-sep">✠</span>
-    <span class="dado-item"><strong>40%</strong> das jovens brasileiras com depressão · OCDE 2024</span>
-    <span class="dado-sep">✠</span>
-    <span class="dado-item">Em <strong>1971</strong> todos os gráficos sociais mudaram ao mesmo tempo</span>
-    <span class="dado-sep">✠</span>
-    <span class="dado-item">PL 6039/2025 · desconstrução da masculinidade <strong>obrigatória</strong> nas escolas</span>
-    <span class="dado-sep">✠</span>
-    <span class="dado-item"><strong>45 mil</strong> denominações protestantes · um princípio lançado em 1517</span>
-    <span class="dado-sep">✠</span>
-    <span class="dado-item"><strong>100 milhões</strong> de mortos pelo marxismo no século XX · Livro Negro do Comunismo</span>
-    <span class="dado-sep">✠</span>
-    <!-- duplicar para loop contínuo -->
-    <span class="dado-item"><strong>92%</strong> dos presos sem pai presente</span>
-    <span class="dado-sep">✠</span>
-    <span class="dado-item"><strong>40%</strong> das jovens brasileiras com depressão · OCDE 2024</span>
-    <span class="dado-sep">✠</span>
-    <span class="dado-item">Em <strong>1971</strong> todos os gráficos sociais mudaram ao mesmo tempo</span>
-    <span class="dado-sep">✠</span>
-    <span class="dado-item">PL 6039/2025 · desconstrução da masculinidade <strong>obrigatória</strong> nas escolas</span>
-    <span class="dado-sep">✠</span>
-    <span class="dado-item"><strong>45 mil</strong> denominações protestantes · um princípio lançado em 1517</span>
-    <span class="dado-sep">✠</span>
-    <span class="dado-item"><strong>100 milhões</strong> de mortos pelo marxismo no século XX · Livro Negro do Comunismo</span>
-    <span class="dado-sep">✠</span>
+  <div class="au d4">
+    <span class="ff mbh"></span>
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px">
+      <div><p class="tm" style="color:var(--tm);opacity:.6">Chauke Stephan Neto</p><p class="tm" style="color:var(--tm);opacity:.32;font-size:9px">Agente de Polícia do MPU · O.III E.P. · Inteligência Estratégica de Estado</p></div>
+      <div class="carimbo" style="transform:rotate(-3deg);font-size:11px">Top Secret</div>
+    </div>
   </div>
 </div>
+</section>
+<div class="sep">✠</div>
 
-<!-- ═══════════════════════════════════════════════════════════════════════
-     O PROBLEMA
-═══════════════════════════════════════════════════════════════════════════ -->
-<section id="problema">
-  <div class="container">
-    <div class="problema-grid">
+<!-- ══ FOLHA 2 — DADOS ═════════════════════════════════════ -->
+<section class="F">
+<div class="Fc">
+  <span class="tag">// Dados do campo — verificáveis na fonte</span>
+  <h2 class="th1 mb1" style="font-size:clamp(32px,5vw,56px);line-height:1.143;letter-spacing:-1px">A desordem que você vê não é acidente.<br>Tem causa. Tem raiz. Tem data.</h2>
+  <span class="fr mb2"></span>
 
-      <!-- Esquerda -->
-      <div>
-        <span class="tag">// O diagnóstico</span>
-        <h2 class="problema-titulo">
-          A desordem que você vê<br>
-          <em>não é acidente.</em><br>
-          Tem causa. Tem raiz. Tem data.
-        </h2>
-        <p class="problema-body">
-          Ao longo de sua carreira como agente de polícia e especialista em inteligência, Chauke Stephan Neto aprendeu
-          a rastrear origens, identificar padrões e fazer as perguntas que a maioria não faz.
-        </p>
-        <p class="problema-body">
-          Quando aplicou essa lente ao mundo em que seus filhos estão crescendo,
-          o que viu o perturbou profundamente — <strong>não como pai nervoso, mas como analista.</strong>
-        </p>
-        <p class="problema-body">
-          A desordem cultural, familiar e econômica que vivemos é o fruto de um processo
-          histórico de 500 anos. Longo, calculado, bem documentado.
-          <strong>E com resposta à altura.</strong>
-        </p>
-      </div>
+  <div class="dado">
+    <div class="tn">92<sup>%</sup></div>
+    <p class="tlg mth mbh" style="max-width:600px">dos presos não tiveram pai presente na infância ou adolescência. Pesquisa do <strong>Delegado Federal Dênis Colares</strong> com 222 presos. Princeton, Cornell e Berkeley confirmaram em 47 estudos independentes. Jovens sem pai têm o dobro da probabilidade de tirar a própria vida.</p>
+    <span class="dado-f">Delegado Federal Dênis Colares · IBGE Censo 2022 · Princeton / Cornell / Berkeley — 47 estudos</span>
+  </div>
 
-      <!-- Direita — cards de dados -->
-      <div>
-        <div class="dado-card">
-          <div class="dado-numero">92<sup>%</sup></div>
-          <div class="dado-desc">dos presos não tiveram pai presente na infância</div>
-          <div class="dado-fonte">Delegado Federal Dênis Colares · Princeton/Cornell/Berkeley — 47 estudos</div>
-        </div>
+  <span class="ff mb1 mt1"></span>
 
-        <div class="dado-card">
-          <div class="dado-numero">40<sup>%</sup></div>
-          <div class="dado-desc">das jovens brasileiras com depressão</div>
-          <div class="dado-fonte">OCDE 2024 · OMS</div>
-        </div>
+  <div class="dado">
+    <div class="tn">40<sup>%</sup></div>
+    <p class="tlg mth mbh" style="max-width:600px">das jovens brasileiras têm depressão — OCDE 2024. <strong>21%</strong> dos jovens de 13 a 29 anos se sentem solitários com frequência — OMS. Uso de medicamentos psiquiátricos cresceu <strong>7,9% em 2024</strong> só na Geração Z. Viktor Frankl sobreviveu a Auschwitz e provou: o ser humano não colapsa pelo sofrimento — colapsa pela ausência de <em>sentido.</em></p>
+    <span class="dado-f">OCDE 2024 · OMS · CNN Brasil jun/2025 · Viktor Frankl — Em Busca de Sentido (1946)</span>
+  </div>
 
-        <div class="dado-card">
-          <div class="dado-numero">1971</div>
-          <div class="dado-desc">ano em que todos os gráficos sociais mudaram de direção ao mesmo tempo</div>
-          <div class="dado-fonte">wtfhappenedin1971.com · fontes governamentais</div>
-        </div>
-      </div>
+  <span class="ff mb1 mt1"></span>
 
+  <div class="dado">
+    <div class="tn" style="font-size:clamp(72px,11vw,128px)">1971</div>
+    <p class="tlg mth mbh" style="max-width:600px">O ano em que todos os gráficos sociais mudaram de direção ao mesmo tempo. Em 15 de agosto de 1971, Nixon suspendeu a conversibilidade do dólar em ouro — o <strong>Nixon Shock</strong>. Salários × produtividade divergiram. Preço dos imóveis disparou. Taxa de divórcio explodiu. Desigualdade cresceu sem parar. <em>Não foi coincidência. Foi consequência de uma decisão.</em></p>
+    <span class="dado-f">wtfhappenedin1971.com · Federal Reserve Bank · Bureau of Labor Statistics (EUA)</span>
+  </div>
+
+  <span class="ff mb1 mt1"></span>
+
+  <div class="dado">
+    <p class="tlg mbh"><strong>PL 6039/2025</strong> — propõe a "desconstrução da masculinidade tóxica" obrigatória nas escolas do 6.º ano ao Ensino Médio. Em 2024, o STF decidiu que as escolas têm <strong>obrigação legal</strong> de ensinar sobre identidade de gênero. Você não foi consultado. O texto está no site da Câmara dos Deputados.</p>
+    <span class="dado-f">Câmara dos Deputados — PL 6039/2025 · STF — jun/2024</span>
+  </div>
+</div>
+</section>
+<div class="sep">✠</div>
+
+<!-- ══ FOLHA 3 — CHESTERTON (escura) ══════════════════════ -->
+<section class="FE">
+<div class="Fc" style="max-width:800px">
+  <span class="tag tago">// G. K. Chesterton — convertido ao catolicismo em 1922</span>
+  <div class="cit citc mb2" style="font-size:clamp(20px,3vw,30px);line-height:1.6;margin-top:32px">
+    "Chegará o dia em que teremos que provar ao mundo que a grama é verde."
+    <span class="cita citac">— G. K. Chesterton · Heretics, 1905 · Esse dia chegou.</span>
+  </div>
+  <p class="tcc mb1" style="max-width:640px;font-size:17px;line-height:1.882">Hoje precisamos provar que um homem é diferente de uma mulher. Que uma criança precisa de pai e mãe. Que existe certo e errado. Que a verdade não é questão de opinião.</p>
+  <p class="tcc" style="max-width:640px;font-size:17px;line-height:1.882">Parece absurdo ter que defender isso. É. <strong>Mas é exatamente o mundo em que vivemos.</strong> E a única forma de defender o óbvio é entender como ele foi atacado.</p>
+</div>
+</section>
+<div class="sep">✠</div>
+
+<!-- ══ FOLHA 4 — A REVOLUÇÃO ═══════════════════════════════ -->
+<section class="F">
+<div class="Fc" style="max-width:720px">
+  <span class="tag">// O processo — 500 anos, 4 atos</span>
+  <h2 class="th1 mb1" style="font-size:clamp(28px,4.5vw,52px);line-height:1.231;letter-spacing:-1px">A desordem não começou ontem.<br>Começou em 1517.</h2>
+  <span class="fr mb2"></span>
+  <p class="tlg mb2">Plínio Corrêa de Oliveira chamou isso de <strong>Revolução</strong> — não a revolução de tanques, mas a que começa dentro da mente e termina nas leis. <em>São quatro atos de uma única peça.</em> Você está vivendo o quarto.</p>
+  <div class="lt">
+    <div class="lt-item"><p class="tm" style="color:var(--red);font-size:10px">1517</p><h3 class="th3 mbh">Revolução Protestante</h3><p class="tc">Lutero: "cada um com sua verdade." A unidade cristã de mil anos parte ao meio. 45 mil denominações depois — o princípio ainda fragmenta tudo.</p></div>
+    <div class="lt-item"><p class="tm" style="color:var(--red);font-size:10px">1789</p><h3 class="th3 mbh">Revolução Francesa</h3><p class="tc">170 mil camponeses católicos massacrados na Vendeia. As Carmelitas cantando até a guilhotina. O calendário cristão destruído. Lênin estudou cada detalhe.</p></div>
+    <div class="lt-item"><p class="tm" style="color:var(--red);font-size:10px">1917</p><h3 class="th3 mbh">Revolução Russa</h3><p class="tc">100 milhões de mortos — Livro Negro do Comunismo. Os Romanov fuzilados no porão. A família declarada "instituição burguesa" a destruir.</p></div>
+    <div class="lt-item"><p class="tm" style="color:var(--red);font-size:10px">1968</p><h3 class="th3 mbh">Revolução Sexual</h3><p class="tc">Reich escreveu em 1936 que destruir a família era condição necessária para a revolução. O título do livro era <em>A Revolução Sexual</em>. Não estava escondido.</p></div>
+  </div>
+</div>
+</section>
+<div class="sep">✠</div>
+
+<!-- ══ FOLHA 5 — ARQUITETURA E MÚSICA ═════════════════════ -->
+<section class="F">
+<div class="Fc" style="max-width:720px">
+  <span class="tag">// A Revolução chegou aos seus sentidos</span>
+  <h2 class="th1 mb1" style="font-size:clamp(28px,4.5vw,52px);line-height:1.231;letter-spacing:-1px">Ela mudou o que você considera bonito.<br>Sem que você percebesse.</h2>
+  <span class="fr mb2"></span>
+
+  <p class="tm mb1" style="color:var(--red);font-size:10px">Cap. 8 — Arquitetura</p>
+  <h3 class="th2 mbh">A beleza não é decoração. É resistência.</h3>
+  <span class="fo mb1"></span>
+  <p class="tc mb1">Roger Scruton documentou em <em>Por que a Beleza Importa</em> (BBC, 2009) que a arquitetura modernista foi uma declaração ideológica: <strong>"a beleza é elitista; o funcional é democrático."</strong> As catedrais medievais levaram gerações para ser construídas — porque havia certeza de que os filhos compartilhariam os mesmos valores. Hoje não construímos mais catedrais.</p>
+  <div class="dado mb2">
+    <p class="tc">Universidade de Surrey (2015): pessoas expostas a arquitetura clássica apresentam <strong>menores níveis de cortisol</strong> e maior senso de pertencimento — independentemente de renda ou origem.</p>
+    <span class="dado-f">Scruton — Por que a Beleza Importa (BBC 2009) · University of Surrey, 2015</span>
+  </div>
+
+  <p class="tm mb1" style="color:var(--red);font-size:10px">Cap. 9 — Música</p>
+  <h3 class="th2 mbh">A música forma a alma. A Revolução sabia disso.</h3>
+  <span class="fo mb1"></span>
+  <p class="tc mb1">São Pio X escreveu em 1903: "Deus deu à música o poder de influenciar a alma. Usada para o mal, o efeito é devastador." O Dr. Tomatis documentou monges beneditinos em colapso físico após reduzir o canto gregoriano. Ao restaurar o canto, a saúde voltou em semanas. <strong>O gregoriano carrega o córtex cerebral</strong> — comprovado pela Universidade de Oxford.</p>
+  <div class="dado">
+    <p class="tc">O sistema de notação musical que usamos hoje — dó, ré, mi, fá, sol, lá, si — foi inventado pelo monge beneditino <strong>Guido d'Arezzo</strong>, por volta do ano 1000 d.C. A música ocidental nasceu da Igreja.</p>
+    <span class="dado-f">Oxford University · Dr. Alfred Tomatis · São Pio X — Tra le Sollecitudini (1903)</span>
+  </div>
+</div>
+</section>
+<div class="sep">✠</div>
+
+<!-- ══ FOLHA 6 — BITCOIN (escura) ══════════════════════════ -->
+<section class="FE">
+<div class="Fc" style="max-width:720px">
+  <span class="tag tago">// Cap. 15 — O Controle Econômico e a Busca da Liberdade</span>
+  <h2 class="td mb1" style="color:#E8D8B8;font-size:clamp(40px,6.5vw,72px);line-height:1;letter-spacing:-2px;margin-top:32px">Bitcoin não é investimento.<br><span style="color:var(--kraft)">É resistência.</span></h2>
+  <span style="display:block;width:72px;height:3px;background:var(--gold);margin:32px 0"></span>
+
+  <p class="tcc mb1" style="font-size:17px;line-height:1.882">Em 15 de agosto de 1971, Nixon suspendeu a conversão do dólar em ouro. Desde então, toda moeda do mundo é <strong>papel lastreado na confiança de governos que podem imprimir à vontade.</strong> Desde 1971, o dólar perdeu mais de 96% do poder de compra. É tributação invisível — sem aprovação de lei, sem voto.</p>
+
+  <div class="cit citc mb1" style="font-size:18px;line-height:1.778;margin:32px 0">
+    "Ninguém pode servir a dois senhores... não podeis servir a Deus e ao dinheiro."
+    <span class="cita citac">— Mt 6,24 · Mas quem controla o dinheiro, controla o servo.</span>
+  </div>
+
+  <p class="tcc mb1" style="font-size:17px;line-height:1.882">A <em>Rerum Novarum</em> (Leão XIII, 1891) e a <em>Quadragesimo Anno</em> (Pio XI, 1931) sempre defenderam o <strong>direito à propriedade privada</strong> como fundamento da dignidade humana. Bitcoin realiza esse princípio: <strong>emissão máxima de 21 milhões, imutável por decreto.</strong> Nenhum banco central imprime mais. Nenhum governo confisca remotamente.</p>
+
+  <div class="dado" style="border-left-color:rgba(139,24,24,.5);margin-top:32px">
+    <p class="tcc" style="font-size:15px;line-height:2.133"><strong style="color:#E8D8B8">El Salvador</strong> — primeiro país a adotar Bitcoin como moeda legal, 2021. <strong style="color:#E8D8B8">Reserva estratégica</strong> declarada pelos EUA em março de 2025. <strong style="color:#E8D8B8">+70 países</strong> em debate sobre regulação ou adoção.</p>
+    <span class="dado-f" style="color:rgba(200,144,30,.38)">Rerum Novarum (1891) · Quadragesimo Anno (1931) · Satoshi Nakamoto — Bitcoin Whitepaper (2008)</span>
+  </div>
+</div>
+</section>
+<div class="sep">✠</div>
+
+<!-- ══ FOLHA 7 — CAPÍTULOS ═════════════════════════════════ -->
+<section class="F" id="caps">
+<div class="Fc" style="max-width:720px">
+  <span class="tag">// O que você vai encontrar</span>
+  <h2 class="th1 mbh" style="font-size:clamp(28px,4.5vw,52px);line-height:1.231;letter-spacing:-1px">15 capítulos.<br>Fontes verificáveis.<br>Nenhuma teoria vaga.</h2>
+  <span class="fo mb1"></span>
+  <p class="tc mb1">Dois movimentos. O diagnóstico rastreia o processo histórico que produziu a desordem. O arsenal apresenta <strong>as respostas concretas para resistir e reconstruir.</strong></p>
+  <p class="tc mb2">Não é autoajuda. Não é panfleto político. É análise de inteligência aplicada à guerra mais importante: <em>a guerra pela alma da nossa civilização.</em></p>
+
+  <div class="fase">Fase 1 — Diagnóstico</div>
+  <div class="cap"><span class="capn">Cap. 1</span><span class="capt">Quem sou eu e por que escrevi este livro<em>O autor, a obra e o mundo que ela enfrenta</em></span></div>
+  <div class="cap"><span class="capn">Cap. 2</span><span class="capt">A Origem dos Pensamentos<em>Como as ideias chegam à sua cabeça — e quem as planta</em></span></div>
+  <div class="cap"><span class="capn">Cap. 3</span><span class="capt">O Homem e a Ordem Natural<em>O que a criação revela — e o que os dados confirmam</em></span></div>
+  <div class="cap"><span class="capn">Cap. 4</span><span class="capt">A Revolução Protestante<em>Como a unidade cristã de mil anos foi partida ao meio</em></span></div>
+  <div class="cap"><span class="capn">Cap. 5</span><span class="capt">A Revolução Francesa<em>O genocídio cristão que os livros escolares não contam</em></span></div>
+  <div class="cap"><span class="capn">Cap. 6</span><span class="capt">A Revolução Russa<em>Quando tiraram Deus, a família e a consciência</em></span></div>
+  <div class="cap"><span class="capn">Cap. 7</span><span class="capt">A Revolução Sexual<em>Como destruíram o amor sem derramar uma gota de sangue</em></span></div>
+  <div class="cap"><span class="capn">Cap. 8</span><span class="capt">A Desordem na Arquitetura<em>Scruton, o concreto ideológico e a beleza como resistência</em></span></div>
+  <div class="cap"><span class="capn">Cap. 9</span><span class="capt">A Desordem na Música<em>Tomatis, o gregoriano e o que a neurociência descobriu</em></span></div>
+  <div class="cap"><span class="capn">Cap. 10–11</span><span class="capt">Linguagem e Vestuário<em>A Novilíngua e a modéstia como ato político</em></span></div>
+  <div class="cap"><span class="capn">Cap. 12–13</span><span class="capt">As Forças e o Papel do Homem<em>BlackRock, Davos, ESG — e a primeira resposta</em></span></div>
+  <div class="fase">Fase 2 — O Arsenal</div>
+  <div class="cap"><span class="capn">Cap. 14</span><span class="capt">A Família Católica como Fortaleza<em>A Igreja Doméstica e o plano de 30 dias</em></span></div>
+  <div class="cap"><span class="capn">Cap. 15</span><span class="capt">O Controle Econômico e o Bitcoin<em>Nixon Shock, Doutrina Social e a propriedade inconfiscável</em></span></div>
+  <div class="cap"><span class="capn">Final</span><span class="capt">A Contra-Revolução e a Restauração da Ordem<em>Os Arautos do Evangelho e o soldado de Cristo</em></span></div>
+
+  <div style="margin-top:64px">
+    <a href="#" class="btn btnp">Quero o livro →</a><!-- SUBSTITUA # PELO HOTLINK -->
+  </div>
+</div>
+</section>
+<div class="sep">✠</div>
+
+<!-- ══ FOLHA 8 — PARA QUEM É ══════════════════════════════ -->
+<section class="F">
+<div class="Fc" style="max-width:720px">
+  <span class="tag">// Destinatários</span>
+  <h2 class="th1 mb2" style="font-size:clamp(28px,4.5vw,52px);line-height:1.231;letter-spacing:-1px">Este livro é para quem sente que algo está errado — e quer entender o quê.</h2>
+  <div class="pub"><div class="pubn">01</div><h3 class="pubh">O pai que quer proteger a família</h3><p class="pubd">"Quero proteger meus filhos — mas não sei contra o quê exatamente."</p><p class="pubt">O livro nomeia o processo, mapeia os canais de ataque e apresenta respostas concretas. Da escola ao algoritmo, da legislação à economia.</p></div>
+  <div class="pub"><div class="pubn">02</div><h3 class="pubh">O jovem que saiu da esquerda</h3><p class="pubd">"Fui enganado. Estou reconstruindo minha visão de mundo."</p><p class="pubt">O fio de 500 anos que conecta 1517 a 1971 ao PL 6039. Com dados e rigor — sem retórica vaga e sem conspiração.</p></div>
+  <div class="pub"><div class="pubn">03</div><h3 class="pubh">O jovem em colapso existencial</h3><p class="pubd">"Sinto que o mundo não faz sentido. Não sei por que viver."</p><p class="pubt">Frankl provou: o ser humano colapsa pela ausência de sentido. Este livro explica o que destruiu o sentido da nossa geração. E onde encontrá-lo.</p></div>
+  <div class="pub"><div class="pubn">04</div><h3 class="pubh">A mãe que percebe o que fazem com seus filhos</h3><p class="pubd">"Vejo o que entra na cabeça deles — não consigo nomear."</p><p class="pubt">De Gramsci ao PL 6039, da Revolução Sexual ao TikTok. A mãe que entende o processo não pode ser enganada.</p></div>
+</div>
+</section>
+<div class="sep">✠</div>
+
+<!-- ══ FOLHA 9 — AUTOR ════════════════════════════════════ -->
+<section class="F">
+<div class="Fc" style="max-width:620px">
+  <span class="tag">// O autor</span>
+  <span class="ff mb2"></span>
+  <h2 class="th2 mbh">Chauke Stephan Neto</h2>
+  <p class="tm mb2" style="color:rgba(58,44,20,.38)">Agente de Polícia do MPU · O.III E.P. · Inteligência Estratégica de Estado · Músico</p>
+  <div class="cit mb1">Pai, marido e católico. Especialista em contrainteligência estratégica de Estado — aplicou as ferramentas do campo ao problema mais urgente da nossa geração.<span class="cita">Escrito para os seus filhos. E para qualquer pessoa que quer ver a grama verde.</span></div>
+  <span class="ff mt1"></span>
+</div>
+</section>
+<div class="sep">✠</div>
+
+<!-- ══ FOLHA 10 — OFERTA (escura) ══════════════════════════ -->
+<section class="FE" id="oferta">
+<div class="Fc" style="max-width:620px">
+  <span class="tag tago">// Edição digital · Entrega imediata</span>
+  <h2 class="td mb1" style="color:#E8D8B8;font-size:clamp(40px,6.5vw,72px);line-height:1;letter-spacing:-2px;margin-top:32px">Manual de<br>Sobrevivência<br>Moderno</h2>
+  <span style="display:block;width:72px;height:3px;background:var(--gold);margin:32px 0"></span>
+  <p class="tcc mb2" style="font-size:16px">PDF completo · 167 páginas · 15 capítulos · fontes verificáveis</p>
+
+  <div class="mb2">
+    <p class="tm" style="color:rgba(232,216,184,.28);text-decoration:line-through;font-size:10px">De R$ 97,00</p>
+    <div style="font-family:'Playfair Display',serif;font-weight:900;line-height:1;color:#E8D8B8;letter-spacing:-3px;font-size:clamp(80px,12vw,112px);margin:16px 0">
+      <span style="font-size:.35em;vertical-align:top;margin-top:.2em;display:inline-block;color:var(--kraft);letter-spacing:0">R$</span>39<span style="font-size:.42em;letter-spacing:-1px">,90</span>
     </div>
+    <p class="tm" style="color:rgba(232,216,184,.26);font-size:10px">Pagamento único · Acesso imediato · Parcelável em até 3×</p>
   </div>
-</section>
 
-<!-- ═══════════════════════════════════════════════════════════════════════
-     CITAÇÃO
-═══════════════════════════════════════════════════════════════════════════ -->
-<section id="citacao">
-  <div class="container">
-    <p class="citacao-texto">
-      "Chegará o dia em que teremos que provar ao mundo que a grama é verde."
-    </p>
-    <p class="citacao-autor">— G. K. Chesterton &nbsp;·&nbsp; Esse dia chegou.</p>
+  <a href="#" class="btn btnc">Quero o livro agora →</a><!-- SUBSTITUA # PELO HOTLINK -->
+
+  <div style="margin-top:32px;display:flex;gap:24px;flex-wrap:wrap">
+    <span class="tm" style="color:rgba(232,216,184,.28);font-size:9px">✓ Entrega imediata</span>
+    <span class="tm" style="color:rgba(232,216,184,.28);font-size:9px">✓ Qualquer dispositivo</span>
+    <span class="tm" style="color:rgba(232,216,184,.28);font-size:9px">✓ 7 dias de garantia</span>
   </div>
+
+  <span class="ffc" style="display:block;margin-top:96px;margin-bottom:32px"></span>
+  <p class="tm" style="color:rgba(232,216,184,.16);font-size:9px;text-align:center;letter-spacing:3px">✠ &nbsp; In Iesu et Maria &nbsp; ✠ &nbsp; · &nbsp; Chauke Stephan Neto &nbsp; · &nbsp; © 2025</p>
+</div>
 </section>
-
-<!-- ═══════════════════════════════════════════════════════════════════════
-     O LIVRO — CAPÍTULOS
-═══════════════════════════════════════════════════════════════════════════ -->
-<section id="o-livro">
-  <div class="container-wide">
-    <div class="livro-grid">
-
-      <!-- Esquerda -->
-      <div>
-        <span class="tag">// O que você vai encontrar</span>
-        <h2 class="livro-titulo">15 capítulos.<br>Fontes verificáveis.<br>Nenhuma teoria vaga.</h2>
-        <p class="livro-body">
-          O livro está dividido em duas fases. A primeira é o diagnóstico —
-          cada revolução que demoliu os pilares da civilização cristã, rastreada
-          com dados e documentos. A segunda é o arsenal —
-          <strong>as respostas concretas para resistir e reconstruir.</strong>
-        </p>
-        <p class="livro-body">
-          Não é autoajuda. Não é panfleto político.
-          É análise de inteligência aplicada à guerra mais importante:
-          <strong>a guerra pela alma da nossa civilização.</strong>
-        </p>
-
-        <div style="margin-top:40px;">
-          <a href="#oferta" class="btn-comprar">Quero o livro &nbsp;→</a>
-        </div>
-      </div>
-
-      <!-- Direita — lista de capítulos -->
-      <div>
-        <div class="fase-label">Fase 1 — Diagnóstico</div>
-        <ul class="cap-lista">
-          <li><span class="cap-num">Cap. 1</span><span class="cap-titulo">Quem sou eu e por que escrevi este livro <em>Apresentação do autor e do mundo que a obra enfrenta</em></span></li>
-          <li><span class="cap-num">Cap. 2</span><span class="cap-titulo">A Origem dos Pensamentos <em>Como as ideias chegam à sua cabeça — e quem as planta</em></span></li>
-          <li><span class="cap-num">Cap. 3</span><span class="cap-titulo">O Homem e a Ordem Natural <em>O que a criação revela — e o que os dados confirmam</em></span></li>
-          <li><span class="cap-num">Cap. 4</span><span class="cap-titulo">A Revolução Protestante <em>O primeiro golpe: como a unidade cristã foi partida ao meio</em></span></li>
-          <li><span class="cap-num">Cap. 5</span><span class="cap-titulo">A Revolução Francesa <em>O orgulho de Deus e o primeiro genocídio cristão moderno</em></span></li>
-          <li><span class="cap-num">Cap. 6</span><span class="cap-titulo">A Revolução Russa <em>Quando a Revolução tirou Deus, a família e a consciência</em></span></li>
-          <li><span class="cap-num">Cap. 7</span><span class="cap-titulo">A Revolução Sexual <em>Como destruíram o amor sem derramar uma gota de sangue</em></span></li>
-          <li><span class="cap-num">Cap. 8–11</span><span class="cap-titulo">A Desordem Cultural <em>Arquitetura · Música · Linguagem · Vestuário</em></span></li>
-          <li><span class="cap-num">Cap. 12–13</span><span class="cap-titulo">As Forças e o Papel do Homem <em>Quem coordena — e a primeira resposta pessoal</em></span></li>
-        </ul>
-
-        <div class="fase-label">Fase 2 — O Arsenal</div>
-        <ul class="cap-lista">
-          <li><span class="cap-num">Cap. 14</span><span class="cap-titulo">A Família Católica como Fortaleza <em>A Igreja Doméstica e o plano de 30 dias</em></span></li>
-          <li><span class="cap-num">Cap. 15</span><span class="cap-titulo">O Controle Econômico e o Bitcoin <em>História do dinheiro, Nixon Shock e a liberdade financeira</em></span></li>
-          <li><span class="cap-num">Final</span><span class="cap-titulo">A Contra-Revolução e a Restauração da Ordem <em>Os Arautos do Evangelho e o soldado de Cristo</em></span></li>
-        </ul>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════════════════
-     PARA QUEM É
-═══════════════════════════════════════════════════════════════════════════ -->
-<section id="para-quem">
-  <div class="container">
-    <h2 class="para-quem-titulo">
-      Este livro é para quem sente<br>
-      <em>que algo está profundamente errado —</em><br>
-      e quer entender o quê.
-    </h2>
-
-    <div class="publicos-grid">
-
-      <div class="publico-card">
-        <div class="publico-num">01</div>
-        <h3 class="publico-titulo">O pai que quer proteger a família</h3>
-        <p class="publico-dor">"Quero proteger meus filhos — mas não sei contra o quê exatamente."</p>
-        <p class="publico-body">O livro nomeia o processo, mapeia os canais de ataque e apresenta as respostas concretas. Da escola ao algoritmo, da legislação à economia.</p>
-      </div>
-
-      <div class="publico-card">
-        <div class="publico-num">02</div>
-        <h3 class="publico-titulo">O jovem que está reconstruindo a visão de mundo</h3>
-        <p class="publico-dor">"Fui enganado a vida toda. Estou procurando o que é real."</p>
-        <p class="publico-body">O fio de 500 anos que conecta 1517 a 1971 ao PL 6039. Com dados, fontes e rigor — sem retórica vaga e sem conspiração.</p>
-      </div>
-
-      <div class="publico-card">
-        <div class="publico-num">03</div>
-        <h3 class="publico-titulo">O jovem em colapso existencial</h3>
-        <p class="publico-dor">"Sinto que o mundo não faz sentido. Não sei por que viver."</p>
-        <p class="publico-body">Frankl provou que o ser humano não colapsa pelo sofrimento — colapsa pela ausência de sentido. Este livro explica o que destruiu o sentido. E onde encontrá-lo.</p>
-      </div>
-
-      <div class="publico-card">
-        <div class="publico-num">04</div>
-        <h3 class="publico-titulo">A mãe que percebe o que fazem com seus filhos</h3>
-        <p class="publico-dor">"Vejo o que entra na cabeça dos meus filhos — mas não consigo nomear."</p>
-        <p class="publico-body">Da teoria de Gramsci ao PL 6039, da Revolução Sexual ao algoritmo do TikTok. A mãe que entende o processo não pode ser enganada.</p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════════════════
-     AUTOR
-═══════════════════════════════════════════════════════════════════════════ -->
-<section id="autor" style="background:var(--dark-mid);padding:64px 0;border-top:1px solid rgba(184,134,11,0.15)">
-  <div class="container" style="max-width:680px;text-align:center">
-    <span class="tag">// O autor</span>
-    <h2 style="font-family:'Playfair Display',serif;font-size:28px;font-weight:700;color:var(--cream);margin-bottom:8px">Chauke Stephan Neto</h2>
-    <p style="font-family:'Courier Prime',monospace;font-size:11px;letter-spacing:3px;color:var(--kraft-mid);text-transform:uppercase;margin-bottom:28px">
-      Agente de Polícia do MPU &nbsp;·&nbsp; Inteligência Estratégica de Estado &nbsp;·&nbsp; O.III E.P. &nbsp;·&nbsp; Músico
-    </p>
-    <div style="width:48px;height:2px;background:var(--gold);margin:0 auto 28px"></div>
-    <p style="font-size:16px;line-height:1.85;color:rgba(247,240,224,0.65);font-style:italic">
-      Pai, marido e católico. Especialista em contrainteligência estratégica de Estado.
-      Aplicou as ferramentas do campo ao problema mais urgente da nossa geração —
-      e escreveu este livro não para acadêmicos, mas para os seus filhos.
-      E para qualquer pessoa que quer ver a grama verde.
-    </p>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════════════════
-     OFERTA / CTA
-═══════════════════════════════════════════════════════════════════════════ -->
-<section id="oferta">
-  <div class="oferta-box">
-    <span class="oferta-tag">// Edição digital · Entrega imediata</span>
-
-    <h2 class="oferta-titulo playfair">
-      Manual de<br>Sobrevivência<br>Moderno
-    </h2>
-
-    <p class="oferta-sub">
-      PDF completo · 167 páginas · 15 capítulos · fontes verificáveis
-    </p>
-
-    <div class="divider-gold center"></div>
-
-    <div class="preco-wrap">
-      <p class="preco-de">De R$ 97,00</p>
-      <div class="preco-por">
-        <sup>R$</sup>39<span style="font-size:44px;letter-spacing:-1px">,90</span>
-      </div>
-      <span class="preco-nota">Pagamento único · Acesso imediato · Parcelável em até 3×</span>
-    </div>
-
-    <!-- SUBSTITUA O # PELO SEU HOTLINK -->
-    <a href="#" class="btn-comprar" style="font-size:16px; padding:22px 64px;">
-      Quero o livro agora &nbsp;→
-    </a>
-
-    <div class="garantias">
-      <span class="garantia-item">Entrega imediata</span>
-      <span class="garantia-item">PDF para qualquer dispositivo</span>
-      <span class="garantia-item">Dados verificáveis</span>
-      <span class="garantia-item">7 dias de garantia</span>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════════════════════════════════════════════════════════════════════
-     RODAPÉ
-═══════════════════════════════════════════════════════════════════════════ -->
-<footer id="rodape">
-  <span class="rodape-cruz">✠</span>
-  <p class="rodape-nome">Manual de Sobrevivência Moderno · Chauke Stephan Neto</p>
-  <p class="rodape-direitos">© 2025 · Todos os direitos reservados · In Iesu et Maria</p>
-</footer>
 
 </body>
 </html>
